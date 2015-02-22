@@ -4,7 +4,14 @@ library("dplyr")
 readColumnNames <- function() {
     df_column_names <- read.table("features.txt", col.names=c("column_index", "column_name"), colClasses=c("integer", "character"))
 
-    return(df_column_names$column_name)
+    column_names <- df_column_names$column_name
+
+    # Rename column name: fBodyBody* should be fFreqBody*
+    for (i in seq(along.with=column_names)) {
+        column_names[i] <- sub("fBodyBody", "fFreqBody", column_names[i])
+    }
+
+    return(column_names)
 }
 
 readActivityLabels <- function() {
